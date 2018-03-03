@@ -1,0 +1,82 @@
+https://www.howtogeek.com/51237/setting-up-a-vpn-pptp-server-on-debian/
+https://www.digitalocean.com/community/tutorials/how-to-setup-your-own-vpn-with-pptp
+
+
+Server Setup
+
+Install the pptp server package:
+
+sudo aptitude install pptpd
+
+Edit the “/etc/pptpd.conf” configuration file:
+
+sudo vim /etc/pptpd.conf
+
+Add to it:
+
+localip 192.168.1.5
+
+remoteip 192.168.1.234-238,192.168.1.245
+
+Where the “localip” is the address of the server, and the remoteip are the addresses that will be handed out to the clients, it is up to you to adjust these for your network’s requirements.
+
+Edit the “/etc/ppp/pptpd-options” configuration file:
+
+sudo vim /etc/ppp/pptpd-options
+
+Append to the end of the file, the following directives:
+
+ms-dns 192.168.1.1
+
+nobsdcomp
+
+noipx
+
+mtu 1490
+
+mru 1490
+
+Where the IP used for the ms-dns directive is the DNS server for the local network your client will be connecting to and, again, it is your responsibility to adjust this to your network’s configuration.
+
+Edit the chap secrets file:
+
+sudo vim /etc/ppp/chap-secrets
+
+Add to it the authentication credentials for a user’s connection, in the following syntax:
+
+username <TAB> * <TAB> users-password <TAB> *
+
+Restart the connection’s daemon for the settings to take affect:
+
+sudo /etc/init.d/pptpd restart
+
+If you don’t want to grant yourself access to anything beyond the server, then you’re done on the server side.
+
+Enable Forwarding (optional)
+
+While this step is optional and could be viewed as a security risk for the extremely paranoid, it is my opinion that not doing it defeats the purpose of even having a VPN connection into your network.
+
+By enabling forwarding we make the entire network available to us when we connect and not just the VPN server itself. Doing so allows the connecting client to “jump” through the VPN server, to all other devices on the network.
+
+To achieve this we will be flipping the switch on the “forwarding” parameter of the system.
+
+Edit the “sysctl” file:
+
+sudo vim /etc/sysctl.conf
+
+Find the “net.ipv4.ip_forward” line and change the parameter from 0 (disabled) to 1 (enabled):
+
+net.ipv4.ip_forward=1
+
+You can either restart the system or issue this command for the setting to take affect:
+
+sudo sysctl -p
+
+With forwarding enabled, all the server side settings are prepared.
+
+We recommend using a “Split Tunnel” connection mode for the VPN client.
+
+A more in depth explanation about the recommended “Split Tunnel” mode, as well as instructions for Ubuntu Linux users can be found in the “Setting up a “Split Tunnel” VPN (PPTP) Client on Ubuntu 10.04” guide.
+
+For windows users, follow the guides below to create the VPN client on your system.
+
