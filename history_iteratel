@@ -1,0 +1,26 @@
+apt-get install pptpd
+  838   03/03/18 01:37:23 vim /etc/pptpd.conf 
+  839   03/03/18 01:39:52 ifconfig 
+  840   03/03/18 01:40:06 vim /etc/pptpd.conf 
+  841   03/03/18 01:41:16 vim /etc/ppp/pap-secrets 
+  842   03/03/18 01:41:51 vim /etc/ppp/chap-secrets 
+  843   03/03/18 01:43:16 vim /etc/ppp/pptpd-options 
+  844   03/03/18 01:46:14 vim /etc/ppp/chap-secrets `
+  845   03/03/18 01:46:17 vim /etc/ppp/chap-secrets 
+  846   03/03/18 01:48:09 /etc/init.d/pptpd restart
+  847   03/03/18 01:48:15 /etc/init.d/pptpd status
+  848   03/03/18 01:51:12 iptables -t nat -I POSTROUTING -s 192.168.1.0/24 -j MASQUERADE
+  849   03/03/18 01:51:35 iptables -t nat -I PREROUTING -s 192.168.1.0/24 -j MASQUERADE
+  852   03/03/18 01:53:26 route -n
+  853   03/03/18 01:54:15 vim /etc/pptpd.conf 
+  854   03/03/18 01:56:18 cat /proc/sys/net/ipv4/ip_forward
+  855   03/03/18 01:58:31 iptables --table nat --append POSTROUTING --out-interface ppp0 -j MASQUERADE
+  856   03/03/18 01:59:54 route -n
+  857   03/03/18 02:00:14 iptables -nvL
+  858   03/03/18 02:01:36 iptables -- policy FORWARD ACCEPT
+  859   03/03/18 02:01:47 iptables --policy FORWARD ACEPT
+  860   03/03/18 02:01:51 iptables --policy FORWARD ACCEPT
+  861   03/03/18 02:01:55 iptables -nvL
+  862   03/03/18 02:02:23 iptables -F
+  863   03/03/18 02:02:26 iptables -nvL
+ 
